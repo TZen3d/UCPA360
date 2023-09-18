@@ -7,7 +7,7 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
-        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/        fontawesome-all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
         <style>
         #map {
@@ -62,12 +62,15 @@
             continuousWorld: false,
             worldCopyJump: false, 
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[45.504994347080576,6.676573133525607],[45.506503200784024,6.680241596336735]]);
+        })
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
         }
 
         // Plan R-1 image
@@ -79,7 +82,6 @@
                                               img_bounds_100R1loc_georef_0,
                                               {pane: 'pane_100R1loc_georef_0'});
         bounds_group.addLayer(layer_100R1loc_georef_0);
-        map.addLayer(layer_100R1loc_georef_0);
 
         // Couche des points de vue 360 R-1
         function pop_LeFranceR1_1(feature, layer) {
@@ -109,12 +111,16 @@
         function style_LeFranceR1_1_0() {
             return {
                 pane: 'pane_LeFranceR1_1',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/shopping_photo.svg',
-            iconSize: [19.0, 19.0]
-        }),
+                radius: 10.0,
+                opacity: 1,
+                color: 'rgba(83,83,83,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,247,247,1.0)',
                 interactive: true,
             }
         }
@@ -133,11 +139,10 @@
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style_LeFranceR1_1_0(feature));
+                return L.circleMarker(latlng, style_LeFranceR1_1_0(feature));
             },
         });
         bounds_group.addLayer(layer_LeFranceR1_1);
-        map.addLayer(layer_LeFranceR1_1);
 
         // Regroupement R-1
         var rm1 = L.layerGroup([layer_LeFranceR1_1, layer_100R1loc_georef_0]);
@@ -151,7 +156,6 @@
                                               img_bounds_110RDCloc_georef_2,
                                               {pane: 'pane_110RDCloc_georef_2'});
         bounds_group.addLayer(layer_110RDCloc_georef_2);
-        map.addLayer(layer_110RDCloc_georef_2);
 
         // Couche des points de vue 360 RDC
         function pop_LeFranceRdc_3(feature, layer) {
@@ -181,12 +185,16 @@
         function style_LeFranceRdc_3_0() {
             return {
                 pane: 'pane_LeFranceRdc_3',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/shopping_photo.svg',
-            iconSize: [19.0, 19.0]
-        }),
+                radius: 10.0,
+                opacity: 1,
+                color: 'rgba(83,83,83,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,247,247,1.0)',
                 interactive: true,
             }
         }
@@ -205,17 +213,15 @@
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style_LeFranceRdc_3_0(feature));
+                return L.circleMarker(latlng, style_LeFranceRdc_3_0(feature));
             },
         });
         bounds_group.addLayer(layer_LeFranceRdc_3);
-        map.addLayer(layer_LeFranceRdc_3);
 
         // Regroupement RDC
         var rdc = L.layerGroup([layer_LeFranceRdc_3, layer_110RDCloc_georef_2]);
 
         var baseMaps = {};
-
         /*L.control.layers(baseMaps,{'<img src="legend/LeFranceRdc_3.png" /> LeFranceRdc': layer_LeFranceRdc_3,"110 RDC loc_georef": layer_110RDCloc_georef_2,'<img src="legend/LeFranceR1_1.png" /> LeFranceR-1': layer_LeFranceR1_1,"100 R-1 loc_georef": layer_100R1loc_georef_0,},{collapsed:false}).addTo(map);*/
 
         L.control.layers(baseMaps,{'<img src="legend/LeFranceRdc_3.png" /> LeFranceRdc': rdc,'<img src="legend/LeFranceR1_1.png" /> LeFranceR-1': rm1,},{collapsed:false}).addTo(map);
@@ -227,7 +233,7 @@
             }
         });
 
-    function showPannellum(url) {
+        function showPannellum(url) {
             console.log(url);            
             pannellum.viewer('panorama', {
                 "type": "equirectangular",
@@ -235,7 +241,7 @@
                 "autoLoad": true
             });
         }
-
+        
         </script>
     </body>
 </html>
