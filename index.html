@@ -18,7 +18,6 @@
         <title></title>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"></script>
-
     </head>
     <body>
         <div id="panorama" style="height : 500px; width: 1463px; margin-bottom: 10px"></div>
@@ -33,16 +32,11 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="js/proj4.js"></script>
-        <script src="js/proj4leaflet.js"></script>
-        <script src="data/LeFranceR1_1.js"></script>
-        <script src="data/LeFranceRdc_3.js"></script>
-        <script src="data/LeFranceR1_5.js"></script>
-        <script src="data/LeFranceR2_7.js"></script>
-        <script src="data/LeFranceR3_9.js"></script>
-        <script src="data/LeFranceR4_11.js"></script>
-        <script src="data/LeFranceR5_13.js"></script>
-        <script src="data/LeFranceR6_15.js"></script>
+        <script src="data/LeFranceR1_3857_1.js"></script>
+        <script src="data/LeFranceRdc_3857_3.js"></script>
+        <script src="data/LeFranceR_3857_5.js"></script>
+        <script src="data/LeFranceR2_3857_7.js"></script>
+        <script src="data/LeFranceR3_3857_9.js"></script>
 
         <script>
         var highlightLayer;
@@ -60,108 +54,29 @@
               });
             }
         }
-        var crs = new L.Proj.CRS('EPSG:2154', '+proj=lcc +lat_0=46.5 +lon_0=3 +lat_1=49 +lat_2=44 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs', {
-            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
-        });
         var map = L.map('map', {
-            crs: crs,
-            continuousWorld: false,
-            worldCopyJump: false, 
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[45.5048893144413,6.677067423499453],[45.50639818345935,6.680735890716698]]);
+        }).fitBounds([[45.50532528412477,6.677834610969434],[45.50599408212146,6.679558973946312]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
-        }
-        
-        // Plan R-1 image
-        map.createPane('pane_100R1loc_georef_0');
-        map.getPane('pane_100R1loc_georef_0').style.zIndex = 400;
-        var img_100R1loc_georef_0 = 'data/100R1loc_georef_0.png';
-        var img_bounds_100R1loc_georef_0 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_100R1loc_georef_0 = new L.imageOverlay(img_100R1loc_georef_0,
-                                              img_bounds_100R1loc_georef_0,
-                                              {pane: 'pane_100R1loc_georef_0'});
-        bounds_group.addLayer(layer_100R1loc_georef_0);
-
-        // Couche des points de vue 360 R-1
-        function pop_LeFranceR1_1(feature, layer) {
-            let url = feature.properties['360']
-            layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
-            });
-            /*var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['360'] !== null ? autolinker.link(feature.properties['360'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});*/
+            map.setMaxBounds(map.getBounds());
         }
 
-        function style_LeFranceR1_1_0() {
-            return {
-                pane: 'pane_LeFranceR1_1',
-                radius: 10.0,
-                opacity: 1,
-                color: 'rgba(83,83,83,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(247,247,247,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_LeFranceR1_1');
-        map.getPane('pane_LeFranceR1_1').style.zIndex = 401;
-        map.getPane('pane_LeFranceR1_1').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR1_1 = new L.geoJson(json_LeFranceR1_1, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_LeFranceR1_1',
-            layerName: 'layer_LeFranceR1_1',
-            pane: 'pane_LeFranceR1_1',
-            onEachFeature: pop_LeFranceR1_1,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_LeFranceR1_1_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_LeFranceR1_1);
+        // plan R-1
+        map.createPane('pane_100R1loc_georeferenced_3857_0');
+        map.getPane('pane_100R1loc_georeferenced_3857_0').style.zIndex = 400;
+        var img_100R1loc_georeferenced_3857_0 = 'data/100R1loc_georeferenced_3857_0.png';
+        var img_bounds_100R1loc_georeferenced_3857_0 = [[45.505245354067156,6.677564474366074],[45.506110247109866,6.679758399864147]];
+        var layer_100R1loc_georeferenced_3857_0 = new L.imageOverlay(img_100R1loc_georeferenced_3857_0,
+                                              img_bounds_100R1loc_georeferenced_3857_0,
+                                              {pane: 'pane_100R1loc_georeferenced_3857_0'});
+        bounds_group.addLayer(layer_100R1loc_georeferenced_3857_0);
 
-        // Regroupement R-1
-        var rm1 = L.layerGroup([layer_LeFranceR1_1, layer_100R1loc_georef_0]);
-
-        // Plan RDC image
-        map.createPane('pane_110RDCloc_georef_2');
-        map.getPane('pane_110RDCloc_georef_2').style.zIndex = 402;
-        var img_110RDCloc_georef_2 = 'data/110RDCloc_georef_2.png';
-        var img_bounds_110RDCloc_georef_2 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_110RDCloc_georef_2 = new L.imageOverlay(img_110RDCloc_georef_2,
-                                              img_bounds_110RDCloc_georef_2,
-                                              {pane: 'pane_110RDCloc_georef_2'});
-        bounds_group.addLayer(layer_110RDCloc_georef_2);
-
-        // Couche des points de vue 360 RDC
-        function pop_LeFranceRdc_3(feature, layer) {
+        // 360 R-1
+        function pop_LeFranceR1_3857_1(feature, layer) {
             let url = feature.properties['360']
             layer.on({
                 mouseout: function(e) {
@@ -185,9 +100,9 @@
             layer.bindPopup(popupContent, {maxHeight: 400});*/
         }
 
-        function style_LeFranceRdc_3_0() {
+        function style_LeFranceR1_3857_1_0() {
             return {
-                pane: 'pane_LeFranceRdc_3',
+                pane: 'pane_LeFranceR1_3857_1',
                 radius: 10.0,
                 opacity: 1,
                 color: 'rgba(83,83,83,1.0)',
@@ -201,41 +116,115 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_LeFranceRdc_3');
-        map.getPane('pane_LeFranceRdc_3').style.zIndex = 403;
-        map.getPane('pane_LeFranceRdc_3').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceRdc_3 = new L.geoJson(json_LeFranceRdc_3, {
+        map.createPane('pane_LeFranceR1_3857_1');
+        map.getPane('pane_LeFranceR1_3857_1').style.zIndex = 401;
+        map.getPane('pane_LeFranceR1_3857_1').style['mix-blend-mode'] = 'normal';
+        var layer_LeFranceR1_3857_1 = new L.geoJson(json_LeFranceR1_3857_1, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_LeFranceRdc_3',
-            layerName: 'layer_LeFranceRdc_3',
-            pane: 'pane_LeFranceRdc_3',
-            onEachFeature: pop_LeFranceRdc_3,
+            dataVar: 'json_LeFranceR1_3857_1',
+            layerName: 'layer_LeFranceR1_3857_1',
+            pane: 'pane_LeFranceR1_3857_1',
+            onEachFeature: pop_LeFranceR1_3857_1,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_LeFranceRdc_3_0(feature));
+                return L.circleMarker(latlng, style_LeFranceR1_3857_1_0(feature));
             },
         });
-        bounds_group.addLayer(layer_LeFranceRdc_3);
+        bounds_group.addLayer(layer_LeFranceR1_3857_1);
 
-        // Regroupement RDC
-        var rdc = L.layerGroup([layer_LeFranceRdc_3, layer_110RDCloc_georef_2]);
+        // Groupe R-1
+        var rm1 = L.layerGroup([layer_LeFranceR1_3857_1, layer_100R1loc_georeferenced_3857_0]);
 
-        // PLan R+1 image
-        map.createPane('pane_120R1loc_georef_4');
-        map.getPane('pane_120R1loc_georef_4').style.zIndex = 404;
-        var img_120R1loc_georef_4 = 'data/120R1loc_georef_4.png';
-        var img_bounds_120R1loc_georef_4 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_120R1loc_georef_4 = new L.imageOverlay(img_120R1loc_georef_4,
-                                              img_bounds_120R1loc_georef_4,
-                                              {pane: 'pane_120R1loc_georef_4'});
-        bounds_group.addLayer(layer_120R1loc_georef_4);
+        // plan RDC
+        map.createPane('pane_110RDCloc_georeferenced_3857_2');
+        map.getPane('pane_110RDCloc_georeferenced_3857_2').style.zIndex = 402;
+        var img_110RDCloc_georeferenced_3857_2 = 'data/110RDCloc_georeferenced_3857_2.png';
+        var img_bounds_110RDCloc_georeferenced_3857_2 = [[45.505245354067156,6.677564474366074],[45.506110247109866,6.679758399864147]];
+        var layer_110RDCloc_georeferenced_3857_2 = new L.imageOverlay(img_110RDCloc_georeferenced_3857_2,
+                                              img_bounds_110RDCloc_georeferenced_3857_2,
+                                              {pane: 'pane_110RDCloc_georeferenced_3857_2'});
+        bounds_group.addLayer(layer_110RDCloc_georeferenced_3857_2);
 
-        // Couche des points de vue 360 R+1
-        function pop_LeFranceR1_5(feature, layer) {
+        // 360 RDC
+        function pop_LeFranceRdc_3857_3(feature, layer) {
+            let url = feature.properties['360']        
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+                mousedown: function(e) {
+                    showPannellum(url)
+                }
+            });
+            /*var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>360</strong><br />' + (feature.properties['360'] !== null ? '<img src="images/' + String(feature.properties['360']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});*/
+        }
+
+        function style_LeFranceRdc_3857_3_0() {
+            return {
+                pane: 'pane_LeFranceRdc_3857_3',
+                radius: 10.0,
+                opacity: 1,
+                color: 'rgba(83,83,83,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,247,247,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_LeFranceRdc_3857_3');
+        map.getPane('pane_LeFranceRdc_3857_3').style.zIndex = 403;
+        map.getPane('pane_LeFranceRdc_3857_3').style['mix-blend-mode'] = 'normal';
+        var layer_LeFranceRdc_3857_3 = new L.geoJson(json_LeFranceRdc_3857_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LeFranceRdc_3857_3',
+            layerName: 'layer_LeFranceRdc_3857_3',
+            pane: 'pane_LeFranceRdc_3857_3',
+            onEachFeature: pop_LeFranceRdc_3857_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_LeFranceRdc_3857_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_LeFranceRdc_3857_3);
+
+        // Groupe RDC
+        var rdc = L.layerGroup([layer_LeFranceRdc_3857_3, layer_110RDCloc_georeferenced_3857_2]);
+
+        // Plan R+1
+        map.createPane('pane_120R1loc_georeferenced_3857_4');
+        map.getPane('pane_120R1loc_georeferenced_3857_4').style.zIndex = 404;
+        var img_120R1loc_georeferenced_3857_4 = 'data/120R1loc_georeferenced_3857_4.png';
+        var img_bounds_120R1loc_georeferenced_3857_4 = [[45.505245354067156,6.677564474366074],[45.506110247109866,6.679758399864147]];
+        var layer_120R1loc_georeferenced_3857_4 = new L.imageOverlay(img_120R1loc_georeferenced_3857_4,
+                                              img_bounds_120R1loc_georeferenced_3857_4,
+                                              {pane: 'pane_120R1loc_georeferenced_3857_4'});
+        bounds_group.addLayer(layer_120R1loc_georeferenced_3857_4);
+
+        // 360 R+1
+        function pop_LeFranceR_3857_5(feature, layer) {
             let url = feature.properties['360']
             layer.on({
                 mouseout: function(e) {
@@ -259,9 +248,9 @@
             layer.bindPopup(popupContent, {maxHeight: 400});*/
         }
 
-        function style_LeFranceR1_5_0() {
+        function style_LeFranceR_3857_5_0() {
             return {
-                pane: 'pane_LeFranceR1_5',
+                pane: 'pane_LeFranceR_3857_5',
                 radius: 10.0,
                 opacity: 1,
                 color: 'rgba(83,83,83,1.0)',
@@ -275,41 +264,41 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_LeFranceR1_5');
-        map.getPane('pane_LeFranceR1_5').style.zIndex = 405;
-        map.getPane('pane_LeFranceR1_5').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR1_5 = new L.geoJson(json_LeFranceR1_5, {
+        map.createPane('pane_LeFranceR_3857_5');
+        map.getPane('pane_LeFranceR_3857_5').style.zIndex = 405;
+        map.getPane('pane_LeFranceR_3857_5').style['mix-blend-mode'] = 'normal';
+        var layer_LeFranceR_3857_5 = new L.geoJson(json_LeFranceR_3857_5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_LeFranceR1_5',
-            layerName: 'layer_LeFranceR1_5',
-            pane: 'pane_LeFranceR1_5',
-            onEachFeature: pop_LeFranceR1_5,
+            dataVar: 'json_LeFranceR_3857_5',
+            layerName: 'layer_LeFranceR_3857_5',
+            pane: 'pane_LeFranceR_3857_5',
+            onEachFeature: pop_LeFranceR_3857_5,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_LeFranceR1_5_0(feature));
+                return L.circleMarker(latlng, style_LeFranceR_3857_5_0(feature));
             },
         });
-        bounds_group.addLayer(layer_LeFranceR1_5);
+        bounds_group.addLayer(layer_LeFranceR_3857_5);
 
-        // Regroupement R+1
-        var rp1 = L.layerGroup([layer_LeFranceR1_5, layer_120R1loc_georef_4]);
+        // Groupe R+1
+        var rp1 = L.layerGroup([layer_LeFranceR_3857_5, layer_120R1loc_georeferenced_3857_4]);
 
-        // Plan R+2 image
-        map.createPane('pane_130R2loc_georef_6');
-        map.getPane('pane_130R2loc_georef_6').style.zIndex = 406;
-        var img_130R2loc_georef_6 = 'data/130R2loc_georef_6.png';
-        var img_bounds_130R2loc_georef_6 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_130R2loc_georef_6 = new L.imageOverlay(img_130R2loc_georef_6,
-                                              img_bounds_130R2loc_georef_6,
-                                              {pane: 'pane_130R2loc_georef_6'});
-        bounds_group.addLayer(layer_130R2loc_georef_6);
+        // Plan R+2        
+        map.createPane('pane_130R2loc_georeferenced_3857_6');
+        map.getPane('pane_130R2loc_georeferenced_3857_6').style.zIndex = 406;
+        var img_130R2loc_georeferenced_3857_6 = 'data/130R2loc_georeferenced_3857_6.png';
+        var img_bounds_130R2loc_georeferenced_3857_6 = [[45.505245354067156,6.677564474366074],[45.506110247109866,6.679758399864147]];
+        var layer_130R2loc_georeferenced_3857_6 = new L.imageOverlay(img_130R2loc_georeferenced_3857_6,
+                                              img_bounds_130R2loc_georeferenced_3857_6,
+                                              {pane: 'pane_130R2loc_georeferenced_3857_6'});
+        bounds_group.addLayer(layer_130R2loc_georeferenced_3857_6);
 
-        // Couche des points de vue 360 R+2
-        function pop_LeFranceR2_7(feature, layer) {
+        // 360 R+2
+        function pop_LeFranceR2_3857_7(feature, layer) {
             let url = feature.properties['360']
             layer.on({
                 mouseout: function(e) {
@@ -333,9 +322,9 @@
             layer.bindPopup(popupContent, {maxHeight: 400});*/
         }
 
-        function style_LeFranceR2_7_0() {
+        function style_LeFranceR2_3857_7_0() {
             return {
-                pane: 'pane_LeFranceR2_7',
+                pane: 'pane_LeFranceR2_3857_7',
                 radius: 10.0,
                 opacity: 1,
                 color: 'rgba(83,83,83,1.0)',
@@ -349,41 +338,41 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_LeFranceR2_7');
-        map.getPane('pane_LeFranceR2_7').style.zIndex = 407;
-        map.getPane('pane_LeFranceR2_7').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR2_7 = new L.geoJson(json_LeFranceR2_7, {
+        map.createPane('pane_LeFranceR2_3857_7');
+        map.getPane('pane_LeFranceR2_3857_7').style.zIndex = 407;
+        map.getPane('pane_LeFranceR2_3857_7').style['mix-blend-mode'] = 'normal';
+        var layer_LeFranceR2_3857_7 = new L.geoJson(json_LeFranceR2_3857_7, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_LeFranceR2_7',
-            layerName: 'layer_LeFranceR2_7',
-            pane: 'pane_LeFranceR2_7',
-            onEachFeature: pop_LeFranceR2_7,
+            dataVar: 'json_LeFranceR2_3857_7',
+            layerName: 'layer_LeFranceR2_3857_7',
+            pane: 'pane_LeFranceR2_3857_7',
+            onEachFeature: pop_LeFranceR2_3857_7,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_LeFranceR2_7_0(feature));
+                return L.circleMarker(latlng, style_LeFranceR2_3857_7_0(feature));
             },
         });
-        bounds_group.addLayer(layer_LeFranceR2_7);
+        bounds_group.addLayer(layer_LeFranceR2_3857_7);
 
-        // Regroupement R+2
-        var rp2 = L.layerGroup([layer_LeFranceR2_7, layer_130R2loc_georef_6]);
+        // Groupe R+2
+        var rp2 = L.layerGroup([layer_LeFranceR2_3857_7, layer_130R2loc_georeferenced_3857_6]);
 
-        // Plan R+3 image
-        map.createPane('pane_140R3loc_georef_8');
-        map.getPane('pane_140R3loc_georef_8').style.zIndex = 408;
-        var img_140R3loc_georef_8 = 'data/140R3loc_georef_8.png';
-        var img_bounds_140R3loc_georef_8 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_140R3loc_georef_8 = new L.imageOverlay(img_140R3loc_georef_8,
-                                              img_bounds_140R3loc_georef_8,
-                                              {pane: 'pane_140R3loc_georef_8'});
-        bounds_group.addLayer(layer_140R3loc_georef_8);
+        // plan R+3        
+        map.createPane('pane_140R3loc_georeferenced_3857_8');
+        map.getPane('pane_140R3loc_georeferenced_3857_8').style.zIndex = 408;
+        var img_140R3loc_georeferenced_3857_8 = 'data/140R3loc_georeferenced_3857_8.png';
+        var img_bounds_140R3loc_georeferenced_3857_8 = [[45.505245354067156,6.677564474366074],[45.506110247109866,6.679758399864147]];
+        var layer_140R3loc_georeferenced_3857_8 = new L.imageOverlay(img_140R3loc_georeferenced_3857_8,
+                                              img_bounds_140R3loc_georeferenced_3857_8,
+                                              {pane: 'pane_140R3loc_georeferenced_3857_8'});
+        bounds_group.addLayer(layer_140R3loc_georeferenced_3857_8);
 
-        // Couche des points de vue 360 R+3
-        function pop_LeFranceR3_9(feature, layer) {
+        // 360 R+3
+        function pop_LeFranceR3_3857_9(feature, layer) {
             let url = feature.properties['360']
             layer.on({
                 mouseout: function(e) {
@@ -407,9 +396,9 @@
             layer.bindPopup(popupContent, {maxHeight: 400});*/
         }
 
-        function style_LeFranceR3_9_0() {
+        function style_LeFranceR3_3857_9_0() {
             return {
-                pane: 'pane_LeFranceR3_9',
+                pane: 'pane_LeFranceR3_3857_9',
                 radius: 10.0,
                 opacity: 1,
                 color: 'rgba(83,83,83,1.0)',
@@ -423,257 +412,34 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_LeFranceR3_9');
-        map.getPane('pane_LeFranceR3_9').style.zIndex = 409;
-        map.getPane('pane_LeFranceR3_9').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR3_9 = new L.geoJson(json_LeFranceR3_9, {
+        map.createPane('pane_LeFranceR3_3857_9');
+        map.getPane('pane_LeFranceR3_3857_9').style.zIndex = 409;
+        map.getPane('pane_LeFranceR3_3857_9').style['mix-blend-mode'] = 'normal';
+        var layer_LeFranceR3_3857_9 = new L.geoJson(json_LeFranceR3_3857_9, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_LeFranceR3_9',
-            layerName: 'layer_LeFranceR3_9',
-            pane: 'pane_LeFranceR3_9',
-            onEachFeature: pop_LeFranceR3_9,
+            dataVar: 'json_LeFranceR3_3857_9',
+            layerName: 'layer_LeFranceR3_3857_9',
+            pane: 'pane_LeFranceR3_3857_9',
+            onEachFeature: pop_LeFranceR3_3857_9,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_LeFranceR3_9_0(feature));
+                return L.circleMarker(latlng, style_LeFranceR3_3857_9_0(feature));
             },
         });
-        bounds_group.addLayer(layer_LeFranceR3_9);
+        bounds_group.addLayer(layer_LeFranceR3_3857_9);
 
-        // Regroupement R+3
-        var rp3 = L.layerGroup([layer_LeFranceR3_9, layer_140R3loc_georef_8]);
-
-        // Plan image R+4
-        map.createPane('pane_150R4loc_georef_10');
-        map.getPane('pane_150R4loc_georef_10').style.zIndex = 410;
-        var img_150R4loc_georef_10 = 'data/150R4loc_georef_10.png';
-        var img_bounds_150R4loc_georef_10 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_150R4loc_georef_10 = new L.imageOverlay(img_150R4loc_georef_10,
-                                              img_bounds_150R4loc_georef_10,
-                                              {pane: 'pane_150R4loc_georef_10'});
-        bounds_group.addLayer(layer_150R4loc_georef_10);
-
-        // Couche des points de vue 360 R+4
-        function pop_LeFranceR4_11(feature, layer) {
-            let url = feature.properties['360']
-            layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
-            });
-            /*var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['360'] !== null ? '<img src="images/' + String(feature.properties['360']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});*/
-        }
-
-        function style_LeFranceR4_11_0() {
-            return {
-                pane: 'pane_LeFranceR4_11',
-                radius: 10.0,
-                opacity: 1,
-                color: 'rgba(83,83,83,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(247,247,247,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_LeFranceR4_11');
-        map.getPane('pane_LeFranceR4_11').style.zIndex = 411;
-        map.getPane('pane_LeFranceR4_11').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR4_11 = new L.geoJson(json_LeFranceR4_11, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_LeFranceR4_11',
-            layerName: 'layer_LeFranceR4_11',
-            pane: 'pane_LeFranceR4_11',
-            onEachFeature: pop_LeFranceR4_11,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_LeFranceR4_11_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_LeFranceR4_11);
-
-        // Regroupement R+4
-        var rp4 = L.layerGroup([layer_LeFranceR4_11, layer_150R4loc_georef_10]);
-
-
-        // Plan R+5 image
-        map.createPane('pane_160R5loc_georef_12');
-        map.getPane('pane_160R5loc_georef_12').style.zIndex = 412;
-        var img_160R5loc_georef_12 = 'data/160R5loc_georef_12.png';
-        var img_bounds_160R5loc_georef_12 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_160R5loc_georef_12 = new L.imageOverlay(img_160R5loc_georef_12,
-                                              img_bounds_160R5loc_georef_12,
-                                              {pane: 'pane_160R5loc_georef_12'});
-        bounds_group.addLayer(layer_160R5loc_georef_12);
-
-        // Couche des points de vue 360 R+5
-        function pop_LeFranceR5_13(feature, layer) {
-            let url = feature.properties['360']
-            layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
-            });
-            /*var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['360'] !== null ? '<img src="images/' + String(feature.properties['360']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});*/
-        }
-
-        function style_LeFranceR5_13_0() {
-            return {
-                pane: 'pane_LeFranceR5_13',
-                radius: 10.0,
-                opacity: 1,
-                color: 'rgba(83,83,83,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(247,247,247,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_LeFranceR5_13');
-        map.getPane('pane_LeFranceR5_13').style.zIndex = 413;
-        map.getPane('pane_LeFranceR5_13').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR5_13 = new L.geoJson(json_LeFranceR5_13, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_LeFranceR5_13',
-            layerName: 'layer_LeFranceR5_13',
-            pane: 'pane_LeFranceR5_13',
-            onEachFeature: pop_LeFranceR5_13,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_LeFranceR5_13_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_LeFranceR5_13);
-
-        // Regroupement R+5
-        var rp5 = L.layerGroup([layer_LeFranceR5_13, layer_160R5loc_georef_12]);
-
-        // Plan R+6 image
-        map.createPane('pane_170R6loc_georef_14');
-        map.getPane('pane_170R6loc_georef_14').style.zIndex = 414;
-        var img_170R6loc_georef_14 = 'data/170R6loc_georef_14.png';
-        var img_bounds_170R6loc_georef_14 = [[45.50531614574499,6.677626643081133],[45.50610007356913,6.67951699655868]];
-        var layer_170R6loc_georef_14 = new L.imageOverlay(img_170R6loc_georef_14,
-                                              img_bounds_170R6loc_georef_14,
-                                              {pane: 'pane_170R6loc_georef_14'});
-        bounds_group.addLayer(layer_170R6loc_georef_14);
-
-        // Couche des points de vue 360 R+6
-        function pop_LeFranceR6_15(feature, layer) {
-            let url = feature.properties['360']
-            layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
-            });
-            /*var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['360'] !== null ? '<img src="images/' + String(feature.properties['360']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});*/
-        }
-
-        function style_LeFranceR6_15_0() {
-            return {
-                pane: 'pane_LeFranceR6_15',
-                radius: 10.0,
-                opacity: 1,
-                color: 'rgba(83,83,83,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(247,247,247,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_LeFranceR6_15');
-        map.getPane('pane_LeFranceR6_15').style.zIndex = 415;
-        map.getPane('pane_LeFranceR6_15').style['mix-blend-mode'] = 'normal';
-        var layer_LeFranceR6_15 = new L.geoJson(json_LeFranceR6_15, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_LeFranceR6_15',
-            layerName: 'layer_LeFranceR6_15',
-            pane: 'pane_LeFranceR6_15',
-            onEachFeature: pop_LeFranceR6_15,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_LeFranceR6_15_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_LeFranceR6_15);
-
-        // Regroupement R+6
-        var rp6 = L.layerGroup([layer_LeFranceR6_15, layer_170R6loc_georef_14]);
+        // Groupe R+3
+        var rp3 = L.layerGroup([layer_LeFranceR3_3857_9, layer_140R3loc_georeferenced_3857_8]);
 
         var baseMaps = {};
-        /*L.control.layers(baseMaps,{'<img src="legend/LeFranceR6_15.png" /> LeFranceR+6': layer_LeFranceR6_15,"170 R+6 loc_georef": layer_170R6loc_georef_14,'<img src="legend/LeFranceR5_13.png" /> LeFranceR+5': layer_LeFranceR5_13,"160 R+5 loc_georef": layer_160R5loc_georef_12,'<img src="legend/LeFranceR4_11.png" /> LeFranceR+4': layer_LeFranceR4_11,"150 R+4 loc_georef": layer_150R4loc_georef_10,'<img src="legend/LeFranceR3_9.png" /> LeFranceR+3': layer_LeFranceR3_9,"140 R+3 loc_georef": layer_140R3loc_georef_8,'<img src="legend/LeFranceR2_7.png" /> LeFranceR+2': layer_LeFranceR2_7,"130 R+2 loc_georef": layer_130R2loc_georef_6,'<img src="legend/LeFranceR1_5.png" /> LeFranceR+1': layer_LeFranceR1_5,"120 R+1 loc_georef": layer_120R1loc_georef_4,'<img src="legend/LeFranceRdc_3.png" /> LeFranceRdc': layer_LeFranceRdc_3,"110 RDC loc_georef": layer_110RDCloc_georef_2,'<img src="legend/LeFranceR1_1.png" /> LeFranceR-1': layer_LeFranceR1_1,"100 R-1 loc_georef": layer_100R1loc_georef_0,},{collapsed:false}).addTo(map);*/
 
-        L.control.layers(baseMaps,{'<img src="legend/LeFranceR6_15.png" /> LeFranceR+6': rp6, '<img src="legend/LeFranceR5_13.png" /> LeFranceR+5': rp5,'<img src="legend/LeFranceR4_11.png" /> LeFranceR+4': rp4,'<img src="legend/LeFranceR3_9.png" /> LeFranceR+3': rp3,'<img src="legend/LeFranceR2_7.png" /> LeFranceR+2': rp2,'<img src="legend/LeFranceR1_5.png" /> LeFranceR+1': rp1,'<img src="legend/LeFranceRdc_3.png" /> LeFranceRdc': rdc,'<img src="legend/LeFranceR1_1.png" /> LeFranceR-1': rm1},{collapsed:false}).addTo(map);
+        /*L.control.layers(baseMaps,{'<img src="legend/LeFranceR3_3857_9.png" /> LeFranceR+3_3857': layer_LeFranceR3_3857_9,"140 R+3 loc_georeferenced_3857": layer_140R3loc_georeferenced_3857_8,'<img src="legend/LeFranceR2_3857_7.png" /> LeFranceR+2_3857': layer_LeFranceR2_3857_7,"130 R+2 loc_georeferenced_3857": layer_130R2loc_georeferenced_3857_6,'<img src="legend/LeFranceR_3857_5.png" /> LeFranceR_3857': layer_LeFranceR_3857_5,"120 R+1 loc_georeferenced_3857": layer_120R1loc_georeferenced_3857_4,'<img src="legend/LeFranceRdc_3857_3.png" /> LeFranceRdc_3857': layer_LeFranceRdc_3857_3,"110 RDC loc_georeferenced_3857": layer_110RDCloc_georeferenced_3857_2,'<img src="legend/LeFranceR1_3857_1.png" /> LeFranceR-1_3857': layer_LeFranceR1_3857_1,"100 R-1 loc_georeferenced_3857": layer_100R1loc_georeferenced_3857_0,},{collapsed:false}).addTo(map);*/
 
+        L.control.layers(baseMaps,{'<img src="legend/LeFranceR3_3857_9.png" /> LeFranceR+3': rp3,'<img src="legend/LeFranceR2_3857_7.png" /> LeFranceR+2': rp2,'<img src="legend/LeFranceR_3857_5.png" /> LeFranceR': rp1,'<img src="legend/LeFranceRdc_3857_3.png" /> LeFranceRdc': rdc,'<img src="legend/LeFranceR1_3857_1.png" /> LeFranceR-1': rm1,},{collapsed:false}).addTo(map);
 
         setBounds();
         L.ImageOverlay.include({
