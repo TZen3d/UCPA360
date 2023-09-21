@@ -39,6 +39,38 @@
         <script src="data/LeFranceR3_3857_9.js"></script>
 
         <script>
+
+        var selectedPoint;
+        console.log(selectedPoint);
+
+        function resetSelectPointStyle() {
+            if (selectedPoint) {
+                selectedPoint.setStyle({
+                    fillColor: 'rgba(247,247,247,1.0)', // Réinitialisez le style ici
+                    fillOpacity: 1
+                });
+            }
+        }
+
+        function selectPoint(e) {
+            console.log("Point sélectionné");
+            resetSelectPointStyle(); // Réinitialisez le style du point précédemment sélectionné
+            selectedPoint = e.target;
+
+            selectedPoint.setStyle({
+                fillColor: '#ffff00', // Style du point sélectionné
+                fillOpacity: 1
+            });
+
+            // Obtenez l'URL de la propriété '360' du point sélectionné
+            let url = selectedPoint.feature.properties['360'];
+
+            // Vérifiez si l'URL existe
+            if (url) {
+                // Appelez la fonction showPannellum avec l'URL
+                showPannellum(url);
+            }
+        }
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
@@ -76,18 +108,15 @@
         bounds_group.addLayer(layer_100R1loc_georeferenced_3857_0);
 
         // 360 R-1
-        function pop_LeFranceR1_3857_1(feature, layer) {
-            let url = feature.properties['360']
+        function pop_LeFranceR1_3857_1(feature, layer) {            
             layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
+                // mouseout: function(e) {
+                //     for (i in e.target._eventParents) {
+                //         e.target._eventParents[i].resetStyle(e.target);
+                //     }
+                // },
+                // mouseover: highlightFeature,
+                mousedown: selectPoint
             });
             /*var popupContent = '<table>\
                     <tr>\
@@ -153,15 +182,13 @@
         function pop_LeFranceRdc_3857_3(feature, layer) {
             let url = feature.properties['360']        
             layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
+                // mouseout: function(e) {
+                //     for (i in e.target._eventParents) {
+                //         e.target._eventParents[i].resetStyle(e.target);
+                //     }
+                // },
+                // mouseover: highlightFeature,
+                mousedown: selectPoint
             });
             /*var popupContent = '<table>\
                     <tr>\
@@ -227,15 +254,13 @@
         function pop_LeFranceR_3857_5(feature, layer) {
             let url = feature.properties['360']
             layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
+                // mouseout: function(e) {
+                //     for (i in e.target._eventParents) {
+                //         e.target._eventParents[i].resetStyle(e.target);
+                //     }
+                // },
+                // mouseover: highlightFeature,
+                mousedown: selectPoint
             });
             /*var popupContent = '<table>\
                     <tr>\
@@ -301,15 +326,13 @@
         function pop_LeFranceR2_3857_7(feature, layer) {
             let url = feature.properties['360']
             layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
+                // mouseout: function(e) {
+                //     for (i in e.target._eventParents) {
+                //         e.target._eventParents[i].resetStyle(e.target);
+                //     }
+                // },
+                // mouseover: highlightFeature,
+                mousedown: selectPoint
             });
             /*var popupContent = '<table>\
                     <tr>\
@@ -375,15 +398,13 @@
         function pop_LeFranceR3_3857_9(feature, layer) {
             let url = feature.properties['360']
             layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                },
-                mouseover: highlightFeature,
-                mousedown: function(e) {
-                    showPannellum(url)
-                }
+                // mouseout: function(e) {
+                //     for (i in e.target._eventParents) {
+                //         e.target._eventParents[i].resetStyle(e.target);
+                //     }
+                // },
+                // mouseover: highlightFeature,
+                mousedown: selectPoint
             });
             /*var popupContent = '<table>\
                     <tr>\
