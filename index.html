@@ -56,6 +56,7 @@
             console.log("Point sélectionné");
             resetSelectPointStyle(); // Réinitialisez le style du point précédemment sélectionné
             selectedPoint = e.target;
+            console.log(selectedPoint)
 
             selectedPoint.setStyle({
                 fillColor: '#ffff00', // Style du point sélectionné
@@ -165,8 +166,26 @@
         });
         bounds_group.addLayer(layer_LeFranceR1_3857_1);
 
+        // Présélection du premier point
+
+        // Sélectionnez la couche layer_LeFranceR1_3857_1 pour obtenir la référence au marqueur
+        var layer = layer_LeFranceR1_3857_1;
+
+        // Obtenez une référence au premier marqueur dans la couche
+        var firstMarker = layer.getLayers()[0]; // Assurez-vous que votre marqueur est bien le premier dans la couche.
+
+        // console.log(firstMarker)
+
+        if (firstMarker) {
+            // Simulez un clic sur le marqueur
+            firstMarker.fire('mousedown');
+        }
+
         // Groupe R-1
         var rm1 = L.layerGroup([layer_LeFranceR1_3857_1, layer_100R1loc_georeferenced_3857_0]);
+
+        // Préchargement du premier niveau (R-1)
+        rm1.addTo(map);
 
         // plan RDC
         map.createPane('pane_110RDCloc_georeferenced_3857_2');
